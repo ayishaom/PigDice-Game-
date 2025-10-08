@@ -43,7 +43,23 @@ class DiceHand:
         return self.values
     
     def total(self) -> int:
-        """Return True if any die rolled a 1."""
+        """Return the sum of the most recent roll."""
         return sum(self.values)
     
+    def any_one(self) -> bool:
+        """Return True if any die rolled a 1."""
+        return 1 in self.values
     
+    def double_ones(self) -> bool:
+        """Return True if two or more dice rolled a 1."""
+        return self.values.count(1) >= 2
+    
+    def _len_(self) -> int:
+        """Return number of dice in hand."""
+        return len(self.dice)
+    
+    def __repr__(self) -> str:
+        """String representation for debugging."""
+        return f"DiceHand({self.values})"
+
+
