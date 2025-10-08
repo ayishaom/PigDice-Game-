@@ -35,3 +35,15 @@ class DiceHand:
             raise ValueError("A DiceHand must contain at least one die.")
         self.dice: List[Dice] = [Dice(sides) for _ in range(num_dice)]
         self.values: List[int] = []
+    
+
+    def roll(self) -> List[int]:
+        """Roll all dice in the hand and return their values."""
+        self.values = [die.roll() for die in self.dice]
+        return self.values
+    
+    def total(self) -> int:
+        """Return True if any die rolled a 1."""
+        return sum(self.values)
+    
+    
