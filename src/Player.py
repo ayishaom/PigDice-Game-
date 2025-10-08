@@ -1,3 +1,8 @@
+"""Player model.
+- Store name, total score, human/AI, (optional) strategy.
+- add_score(), reset(), getters.
+- If AI: call Intelligence to decide; no I/O here."""
+
 import uuid
 from dataclasses import dataclass, field
 

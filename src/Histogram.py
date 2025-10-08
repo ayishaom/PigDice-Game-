@@ -1,5 +1,10 @@
 # for dice roll visualization
 
+"""Roll frequency stats.
+- Count how many times each face appears.
+- Provide counts() and total_rolls().
+- No printing; data only."""
+
 from collections import defaultdict
 
 class Histogram:

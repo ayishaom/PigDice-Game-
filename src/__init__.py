@@ -1,0 +1,1 @@
+"""Main package for the Pig Dice game project."""

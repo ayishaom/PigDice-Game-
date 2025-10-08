@@ -1,3 +1,8 @@
+"""Single die.
+- Keep number of sides (default 6).
+- roll() returns a random int in [1..sides].
+- No printing/input; logic only."""
+
 import random
 
 class Dice:
