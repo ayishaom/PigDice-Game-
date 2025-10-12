@@ -4,7 +4,7 @@ import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 import unittest
-from Dice import Dice
+from dice import Dice
 from unittest.mock import patch
 
 # robust target for patching randint from the actual Dice modul
