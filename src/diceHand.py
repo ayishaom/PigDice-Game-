@@ -13,7 +13,7 @@ and detecting doubles (for variants of the Pig game).
 from __future__ import annotations  # MUST be at the top, after the docstring
 import random
 from typing import List
-from .dice import Dice  # assuming Dice class exists in dice.py
+from dice import Dice  # assuming Dice class exists in dice.py
 
 
 class DiceHand:
