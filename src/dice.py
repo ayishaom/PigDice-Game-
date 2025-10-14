@@ -16,7 +16,6 @@ class Dice:
         self.sides = sides
         self.current_value = None
 
-
     def roll(self):
         """Roll the die and return a random number between 1 and sides."""
         self.current_value = random.randint(1, self.sides)
