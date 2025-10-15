@@ -6,3 +6,4 @@ htmlcov/
 *.pyc
 src/*/doc
 build/
+__pycache__/
