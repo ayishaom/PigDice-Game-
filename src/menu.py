@@ -3,16 +3,23 @@ from score import Score
 from intelligence import Intelligence
 from game import PigGame
 
-class Menu:
 
+class Menu:
     def __init__(self):
         self.running = True
 
+    # ----------------- Public API -----------------
+
     def run(self):
+        """Main menu loop with resilient input handling."""
         while self.running:
-            self.display_options()
-            choice = input("Enter your choice: ").strip()
-            self.handle_choice(choice)
+            try:
+                self.display_options()
+                choice = self._prompt_menu_choice("Enter your choice (1-5): ")
+                self.handle_choice(choice)
+            except (KeyboardInterrupt, EOFError):
+                print("\nExiting… Goodbye.")
+                self.running = False
 
     def display_options(self):
         print("\n--- MENU ---")
@@ -22,7 +29,7 @@ class Menu:
         print("4. View rules")
         print("5. Quit")
 
-    def handle_choice(self, choice):
+    def handle_choice(self, choice: str):
         if choice == "1":
             self.start_single_player()
         elif choice == "2":
@@ -35,23 +42,21 @@ class Menu:
             self.running = False
             print("Thanks for playing! Goodbye.")
         else:
+            # This should not happen because _prompt_menu_choice validates,
+            # but we keep a fallback just in case.
             print("Invalid choice, please try again.")
 
     # ----------------- Game-launching Methods -----------------
 
     def start_single_player(self):
-        """Start a game vs computer."""
-        name = input("Enter your name: ").strip()
-        if not name:
-            name = "Player"
+        """Start a game vs computer (with validated inputs)."""
+        name = self._prompt_nonempty_name("Enter your name [Player]: ", default="Player")
         human = Player(name, is_ai=False)
         computer = Player("Computer", is_ai=True)
 
         score_manager = Score()
-        # let user pick AI difficulty
-        level = input("Choose AI difficulty (easy, medium, hard) [medium]: ").strip().lower()
-        if level not in ("easy", "medium", "hard"):
-            level = "medium"
+
+        level = self._prompt_difficulty("Choose AI difficulty (easy, medium, hard) [medium]: ", default="medium")
         ai_agent = Intelligence()
         ai_agent.set_difficulty(level)
 
@@ -59,13 +64,9 @@ class Menu:
         game.play()
 
     def start_two_player(self):
-        """Start a two-player local game."""
-        name1 = input("Enter Player 1 name: ").strip()
-        if not name1:
-            name1 = "Player1"
-        name2 = input("Enter Player 2 name: ").strip()
-        if not name2:
-            name2 = "Player2"
+        """Start a two-player local game (with validated inputs)."""
+        name1 = self._prompt_nonempty_name("Enter Player 1 name [Player1]: ", default="Player1")
+        name2 = self._prompt_nonempty_name("Enter Player 2 name [Player2]: ", default="Player2")
 
         p1 = Player(name1, is_ai=False)
         p2 = Player(name2, is_ai=False)
@@ -101,11 +102,49 @@ class Menu:
 - First to reach 100 points wins.
 - You may change your name during the game; stats are preserved in high scores.
 
-    
 Cheat instructions:
-
 - During your turn, type 'cheat' or 'c' to add +50 points to the current player.
 - You can also type 'restart' during a game to reset both players' scores to zero.
 - Use 'ai' during your turn to change AI difficulty (easy, medium, hard).
 - Type 'name' to change a player's name.
-        """)
+""")
+
+    # ----------------- Input Helpers (Validation) -----------------
+
+    def _prompt_menu_choice(self, prompt: str) -> str:
+        """Loop until user enters one of '1'..'5'."""
+        valid = {"1", "2", "3", "4", "5"}
+        while True:
+            choice = input(prompt).strip()
+            if choice in valid:
+                return choice
+            print("Please enter a number between 1 and 5.")
+
+    def _prompt_nonempty_name(self, prompt: str, default: str) -> str:
+        """
+        Ask for a name; accept default on empty input.
+        Reject names that are only whitespace.
+        """
+        while True:
+            raw = input(prompt)
+            if raw is None:
+                return default
+            name = raw.strip()
+            if name:
+                return name
+            # Allow user to accept default by pressing Enter explicitly
+            if raw == "":
+                return default
+            print("Name cannot be empty. Please try again.")
+
+    def _prompt_difficulty(self, prompt: str, default: str = "medium") -> str:
+        """Ask for difficulty; allow Enter for default; validate choice."""
+        valid = {"easy", "medium", "hard"}
+        while True:
+            raw = input(prompt)
+            if raw is None or raw.strip() == "":
+                return default
+            level = raw.strip().lower()
+            if level in valid:
+                return level
+            print("Invalid difficulty. Choose: easy, medium, or hard.")
