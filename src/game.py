@@ -170,6 +170,11 @@ class PigGame:
                     roll = values[0] if values else None
                     face = dice_face(roll) if roll is not None else "?"
                     print(f"{current.name} rolled {roll} {face}")
+                    if roll is None:
+                        print("Invalid roll. Turn lost.")
+                        self.turn_total = 0
+                        turn_active = False
+                        continue
                     if roll == 1:
                         print("Oh no — rolled a 1. Turn lost.")
                         self.turn_total = 0

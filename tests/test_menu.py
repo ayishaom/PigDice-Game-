@@ -100,5 +100,30 @@ class TestMenu(unittest.TestCase):
         self.assertFalse(self.menu.running)
         self.assertIn("Exiting… Goodbye.", out.getvalue())
 
+    def test_display_options_prints_menu_header(self):
+        m = Menu()
+        out = io.StringIO()
+        with patch("sys.stdout", new=out):
+            m.display_options()
+        text = out.getvalue()
+        assert ("P I G   D I C E" in text) or ("MENU" in text) or ("🎲" in text)
+
+    def test_prompt_difficulty_invalid_then_valid_prints_warning(self):
+        m = Menu()
+        out = io.StringIO()
+        with patch("builtins.input", side_effect=["crazy", "medium"]), patch("sys.stdout", new=out):
+            level = m._prompt_difficulty("x: ", default="medium")
+        assert level == "medium"
+        assert "Invalid difficulty" in out.getvalue()
+
+    def test_prompt_nonempty_name_whitespace_then_default_message_and_default_return(self):
+        m = Menu()
+        out = io.StringIO()
+        with patch("builtins.input", side_effect=["   ", ""]), patch("sys.stdout", new=out):
+            name = m._prompt_nonempty_name("name: ", default="PlayerX")
+        assert name == "PlayerX"
+        assert "Name cannot be empty" in out.getvalue()
+
+
 if __name__ == "__main__":
     unittest.main()
