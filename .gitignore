@@ -1,8 +1,19 @@
-.coverage
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Test caches
+.pytest_cache/
+
+# Environments & tooling
 .venv/
 venv/
-__pycache__
-htmlcov/
-*.pyc
-src/*/doc
-build/
+.env
+.env.*
+.idea/
+.vscode/
+
+# OS cruft
+.DS_Store
+Thumbs.db
