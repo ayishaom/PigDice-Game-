@@ -1,0 +1,45 @@
+{
+    "Anastasia": {
+        "games": [
+            {
+                "date": "2025-10-14",
+                "points": 100
+            },
+            {
+                "date": "2025-10-15",
+                "points": 120
+            },
+            {
+                "date": "2025-10-15",
+                "points": 100
+            },
+            {
+                "date": "2025-10-15",
+                "points": 100
+            }
+        ],
+        "total_points": 420
+    },
+    "Computer": {
+        "games": [
+            {
+                "date": "2025-10-15",
+                "points": 101
+            }
+        ],
+        "total_points": 101
+    },
+    "Angelina": {
+        "games": [
+            {
+                "date": "2025-10-15",
+                "points": 100
+            },
+            {
+                "date": "2025-10-15",
+                "points": 100
+            }
+        ],
+        "total_points": 200
+    }
+}

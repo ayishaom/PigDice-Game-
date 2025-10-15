@@ -1,0 +1,7 @@
+## Running Tests
+
+To run tests, make sure you have `pytest` installed:
+
+```bash
+pip install -r requirements.txt
+pytest
