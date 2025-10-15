@@ -90,40 +90,32 @@ class Intelligence:
 
         # --- Hard difficulty: strategic AI ---
         return self._decide_hard(turn_total, my_score, opponent_score)
-
+    
     def _decide_hard(self, turn_total: int, my_score: int, opponent_score: int) -> str:
         """
-        Advanced decision-making for hard difficulty.
-
-        Considers probability, opponent proximity, score gap,
-        and expected value of rolling again.
-
-        Returns
-        -------
-        str
-            'roll' or 'hold'.
+        Hard AI: considers opponent proximity, score gap, and turn total.
         """
-        score_gap = my_score - opponent_score
+        if my_score + turn_total >= 100:
+            return "hold"
+        
         base_threshold = self.hold_threshold
+        score_gap = my_score - opponent_score
 
+   
         if score_gap < 0:
-            base_threshold += 3
+            base_threshold += 3  # behind → take more risk
         elif score_gap > 15:
-            base_threshold -= 3
+            base_threshold -=  5 # ahead → hold sooner
 
+    # Opponent near winning → hold sooner
         if opponent_score >= 90:
-            base_threshold -= 2
+            base_threshold = min(base_threshold, 10)
 
-        p_lose = 1 / 6
-        p_continue = 5 / 6
-        expected_gain = p_continue * 3.5
-
-        expected_next_score = my_score + turn_total + expected_gain
-        if expected_next_score >= 100:
-            return "roll" if p_continue * expected_gain > p_lose * turn_total else "hold"
-
+    # Decide based on turn total
         if turn_total >= base_threshold:
             return "hold"
 
+    # Risk factor
+        p_lose = 1 / 6
         risk_factor = p_lose * turn_total
         return "roll" if risk_factor < 5 else "hold"
