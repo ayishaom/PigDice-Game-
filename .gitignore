@@ -1,8 +1,34 @@
-.coverage
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Virtual envs
 .venv/
 venv/
-__pycache__/
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Coverage artifacts
+.coverage
 htmlcov/
-*.pyc
-src/*/doc
+
+# Packaging / build
 build/
+dist/
+*.egg-info/
+
+# Editors / IDE
+.idea/
+.vscode/
+
+# OS cruft
+.DS_Store
+Thumbs.db
