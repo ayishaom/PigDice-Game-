@@ -1,19 +1,29 @@
+"""Histogram module.
+
+Provides the Histogram class for generating text-based histograms
+for player scores in the Pig game.
+"""
+
 class Histogram:
     """Generate text-based histograms for player scores."""
 
     def __init__(self, scale=1):
         """
         Initialize histogram.
+
         Args:
             scale (int): scale factor for bar length (1 unit = scale points)
         """
         self.scale = scale
 
     def generate_total(self, players_scores):
-        """
-        Generate histogram for total points per player.
-        players_scores: list of tuples [(player_name, stats_dict), ...]
-        Returns: list of str lines
+        """Generate histogram for total points per player.
+
+        Args:
+            players_scores (list of tuples): [(player_name, stats_dict), ...]
+        
+        Returns:
+            list of str: Lines representing the histogram.
         """
         lines = []
         for name, stats in players_scores:
@@ -24,8 +34,13 @@ class Histogram:
         return lines
 
     def generate_per_game(self, players_scores):
-        """
-        Generate histogram showing each game for each player.
+        """Generate histogram showing each game for each player.
+
+        Args:
+            players_scores (list of tuples): [(player_name, stats_dict), ...]
+        
+        Returns:
+            list of str: Lines representing the histogram per game.
         """
         lines = []
         for name, stats in players_scores:

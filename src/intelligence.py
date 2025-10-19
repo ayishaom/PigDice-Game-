@@ -1,5 +1,3 @@
-#Basic computer intelligence for deciding when to hold or roll.
-
 """Intelligence module.
 
 Advanced AI decision logic for the Pig dice game.
@@ -92,9 +90,7 @@ class Intelligence:
         return self._decide_hard(turn_total, my_score, opponent_score)
     
     def _decide_hard(self, turn_total: int, my_score: int, opponent_score: int) -> str:
-        """
-        Hard AI: considers opponent proximity, score gap, and turn total.
-        """
+        """Hard AI: considers opponent proximity, score gap, and turn total."""
         if my_score + turn_total >= 100:
             return "hold"
         

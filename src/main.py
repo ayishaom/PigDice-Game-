@@ -1,7 +1,12 @@
+"""Main entry point for the Pig game.
+
+Runs the game menu.
+"""
+
 from menu import Menu
 
 def main():
-    """Run the menu."""
+    """Run the game menu."""
     menu = Menu()
     menu.run()
 
