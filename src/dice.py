@@ -13,7 +13,8 @@ class Dice:
 
     Attributes:
         sides (int): Number of sides on the die.
-        current_value (int | None): Last rolled value or None if not rolled yet.
+        current_value (int | None): Last rolled value or None if not rolled
+        yet.
     """
 
     def __init__(self, sides=6):
@@ -49,4 +50,3 @@ class Dice:
     def get_sides(self):
         """Return the number of sides."""
         return self.sides
-    
