@@ -14,7 +14,7 @@ DICE_FACE_BASE = 0x2680  # ⚀ is U+2680
 
 
 def dice_face(n: int) -> str:
-    """Return a Unicode character representing a dice face for numbers 1–6.
+    """Return a Unicode character representing a dice face for numbers 1-6.
 
     Args:
         n (int): Number rolled on the dice.
@@ -54,9 +54,12 @@ class PigGame:
         Args:
             players (List[Player]): Two players for the game.
             score_manager (Score): Score tracking manager.
-            winning_score (int, optional): Points needed to win. Defaults to 100.
-            dice_hand (Optional[DiceHand], optional): Dice hand to use. Defaults to None.
-            ai_agent (Optional[Intelligence], optional): AI agent for computer player. Defaults to None.
+            winning_score (int, optional): Points needed to win. Defaults to
+            100.
+            dice_hand (Optional[DiceHand], optional): Dice hand to use.
+            Defaults to None.
+            ai_agent (Optional[Intelligence], optional): AI agent for computer
+            player. Defaults to None.
 
         Raises:
             ValueError: If `players` does not contain exactly two players.
@@ -86,7 +89,10 @@ class PigGame:
         print("\n" + border)
         print(title.center(len(border)))
         print(border)
-        print(f"  {a0} {p0.name:15} : {p0.total_score:3}    |    {a1} {p1.name:15} : {p1.total_score:3}")
+        print(
+            f"  {a0} {p0.name:15} : {p0.total_score:3}    |    "
+            f"{a1} {p1.name:15} : {p1.total_score:3}"
+        )
         print("═" * 60)
 
     def _prompt_cmd(self) -> str:
@@ -96,14 +102,20 @@ class PigGame:
             str: The player's chosen command.
         """
         valid = {
-            "r": "roll", "roll": "roll",
-            "h": "hold", "hold": "hold",
-            "c": "cheat", "cheat": "cheat",
-            "n": "name", "name": "name",
+            "r": "roll",
+            "roll": "roll",
+            "h": "hold",
+            "hold": "hold",
+            "c": "cheat",
+            "cheat": "cheat",
+            "n": "name",
+            "name": "name",
             "ai": "ai",
-            "q": "quit", "quit": "quit",
+            "q": "quit",
+            "quit": "quit",
             "restart": "restart",
-            "help": "help", "?": "help",
+            "help": "help",
+            "?": "help",
         }
         while True:
             try:
@@ -128,7 +140,10 @@ class PigGame:
         valid = {"easy", "medium", "hard"}
         while True:
             try:
-                raw = input("➤ Set AI difficulty (easy, medium, hard) [Enter to cancel]: ")
+                raw = input(
+                    "➤ Set AI difficulty (easy, medium, hard) "
+                    "[Enter to cancel]: "
+                )
             except (EOFError, KeyboardInterrupt):
                 print("\n❌ Cancelled.")
                 return None
@@ -140,7 +155,8 @@ class PigGame:
             print("⚠️  Invalid difficulty. Choose: easy, medium, or hard.")
 
     def _help_text(self):
-        """Return the help text describing available commands for the current turn."""
+        """Return the help text describing available commands for the current
+        turn."""
         return (
             "\n🆘 HELP\n"
             "Commands during your turn:\n"
@@ -148,7 +164,8 @@ class PigGame:
             "  h, hold      - bank the turn total ✋\n"
             "  c, cheat     - add +50 points 🪄\n"
             "  n, name      - change your player name ✍️ (stats preserved)\n"
-            "  ai           - change AI difficulty 🔧 (if an AI opponent exists)\n"
+            "  ai           - change AI difficulty 🔧 "
+            "(if an AI opponent exists)\n"
             "  q, quit      - quit current game and return to the menu 👋\n"
             "  restart      - reset both players' scores 🔄\n"
         )
@@ -158,7 +175,8 @@ class PigGame:
     def play(self):
         """Run the main game loop until a player wins or quits.
 
-        Handles turn switching, rolling, holding, cheating, AI decisions, and score updates.
+        Handles turn switching, rolling, holding, cheating, AI decisions, and
+        score updates.
         """
         self.running = True
         while self.running:
@@ -167,14 +185,25 @@ class PigGame:
             opponent = self.players[1 - self.current_index]
             self.turn_total = 0
 
-            turn_header = "🤖  " + current.name if current.is_ai else "👤  " + current.name
-            print(f"\n--- {turn_header}'s turn ---  (type 'help' for commands)\n")
+            turn_header = (
+                "🤖  " + current.name
+                if current.is_ai
+                else "👤  " + current.name
+            )
+            print(
+                f"\n--- {turn_header}'s turn ---  "
+                "(type 'help' for commands)\n"
+            )
 
             turn_active = True
 
             while turn_active and self.running:
                 if current.is_ai:
-                    decision = self.ai_agent.decide(self.turn_total, current.total_score, opponent.total_score)
+                    decision = self.ai_agent.decide(
+                        self.turn_total,
+                        current.total_score,
+                        opponent.total_score,
+                    )
                     print(f"[🤖 AI decides to {decision}]")
                 else:
                     cmd = self._prompt_cmd()
@@ -183,11 +212,16 @@ class PigGame:
                         print(self._help_text())
                         continue
                     if decision == "quit":
-                        print("\n👋 Quitting current game and returning to menu...\n")
+                        print(
+                            "\n👋 Quitting current game and returning to "
+                            "menu...\n"
+                        )
                         self.running = False
                         return
                     if decision == "restart":
-                        print("\n🔄 Restarting current match (scores reset).\n")
+                        print(
+                            "\n🔄 Restarting current match (scores reset).\n"
+                        )
                         for p in self.players:
                             p.reset_score()
                         turn_active = False
@@ -198,15 +232,22 @@ class PigGame:
                             if level:
                                 try:
                                     self.ai_agent.set_difficulty(level)
-                                    print(f"🔧 AI difficulty set to {level}.")
+                                    print(
+                                        f"🔧 AI difficulty set to {level}."
+                                    )
                                 except Exception as e:
                                     print("⚠️  Invalid difficulty:", e)
                         else:
-                            print("ℹ️  AI difficulty can only be changed when an AI opponent exists.")
+                            print(
+                                "ℹ️  AI difficulty can only be changed when "
+                                "an AI opponent exists."
+                            )
                         continue
                     if decision == "name":
                         try:
-                            new_name = input("➤ Enter new name [Enter to cancel]: ")
+                            new_name = input(
+                                "➤ Enter new name [Enter to cancel]: "
+                            )
                         except (EOFError, KeyboardInterrupt):
                             print("\n❌ Name change cancelled.")
                             continue
@@ -215,12 +256,20 @@ class PigGame:
                             print("❌ Name change cancelled.")
                             continue
                         old = current.name
-                        renamed = self.score_manager.rename_player(old, new_name)
+                        renamed = self.score_manager.rename_player(
+                            old, new_name
+                        )
                         current.set_name(new_name)
                         if renamed:
-                            print(f"✍️  Renamed {old} → {new_name} and preserved stats.")
+                            print(
+                                f"✍️  Renamed {old} → {new_name} and "
+                                "preserved stats."
+                            )
                         else:
-                            print(f"✍️  Renamed locally to {new_name}. No previous stats existed for {old}.")
+                            print(
+                                f"✍️  Renamed locally to {new_name}. "
+                                f"No previous stats existed for {old}."
+                            )
                         continue
 
                 # Handle roll/hold/cheat
@@ -242,29 +291,56 @@ class PigGame:
                         turn_active = False
                     else:
                         self.turn_total += roll
-                        print(f"➕ Turn total is now {self.turn_total}. (Hold to bank points)")
-                        if current.total_score + self.turn_total >= self.winning_score:
+                        print(
+                            f"➕ Turn total is now {self.turn_total}. "
+                            "(Hold to bank points)"
+                        )
+                        if (
+                            current.total_score + self.turn_total
+                            >= self.winning_score
+                        ):
                             current.add_score(self.turn_total)
-                            print(f"\n🏆 {current.name} reaches {current.total_score} points and wins!\n")
-                            self.score_manager.record_game(current.name, current.total_score)
+                            print(
+                                f"\n🏆 {current.name} reaches "
+                                f"{current.total_score} points and wins!\n"
+                            )
+                            self.score_manager.record_game(
+                                current.name, current.total_score
+                            )
                             return
 
                 elif decision == "hold":
                     current.add_score(self.turn_total)
-                    print(f"💰 {current.name} banks {self.turn_total} points (total {current.total_score}).")
+                    print(
+                        f"💰 {current.name} banks {self.turn_total} points "
+                        f"(total {current.total_score})."
+                    )
                     if current.total_score >= self.winning_score:
-                        print(f"\n🏆 {current.name} wins with {current.total_score} points!\n")
-                        self.score_manager.record_game(current.name, current.total_score)
+                        print(
+                            f"\n🏆 {current.name} wins with "
+                            f"{current.total_score} points!\n"
+                        )
+                        self.score_manager.record_game(
+                            current.name, current.total_score
+                        )
                         return
                     turn_active = False
 
                 elif decision == "cheat":
                     cheat_points = 50
-                    print(f"🪄 Cheat used! Adding {cheat_points} points to {current.name}.")
+                    print(
+                        f"🪄 Cheat used! Adding {cheat_points} points to "
+                        f"{current.name}."
+                    )
                     current.add_score(cheat_points)
                     if current.total_score >= self.winning_score:
-                        print(f"\n🏆 {current.name} wins by cheat with {current.total_score} points!\n")
-                        self.score_manager.record_game(current.name, current.total_score)
+                        print(
+                            f"\n🏆 {current.name} wins by cheat with "
+                            f"{current.total_score} points!\n"
+                        )
+                        self.score_manager.record_game(
+                            current.name, current.total_score
+                        )
                         return
                     turn_active = False
 

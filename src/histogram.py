@@ -4,6 +4,7 @@ Provides the Histogram class for generating text-based histograms
 for player scores in the Pig game.
 """
 
+
 class Histogram:
     """Generate text-based histograms for player scores."""
 
@@ -21,7 +22,7 @@ class Histogram:
 
         Args:
             players_scores (list of tuples): [(player_name, stats_dict), ...]
-        
+
         Returns:
             list of str: Lines representing the histogram.
         """
@@ -38,7 +39,7 @@ class Histogram:
 
         Args:
             players_scores (list of tuples): [(player_name, stats_dict), ...]
-        
+
         Returns:
             list of str: Lines representing the histogram per game.
         """
@@ -48,7 +49,8 @@ class Histogram:
                 points = game.get('points', 0)
                 bar_length = int(points / self.scale)
                 bar = "*" * bar_length
-                lines.append(f"{name:^12} | {points:^6} | {bar} ({game.get('date')})")
+                lines.append(f"{name:^12} | {points:^6} | {bar} ("
+                             f"{game.get('date')})")
         return lines
 
     def key(self):

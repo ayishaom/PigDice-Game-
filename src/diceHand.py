@@ -7,7 +7,6 @@ and detecting doubles (for variants of the Pig game).
 """
 
 from __future__ import annotations  # MUST be at the top, after the docstring
-import random
 from typing import List
 from dice import Dice  # assuming Dice class exists in dice.py
 
@@ -24,7 +23,8 @@ class DiceHand:
         """Initialize a hand with N dice.
 
         Args:
-            num_dice (int, optional): Number of dice in the hand. Defaults to 1.
+            num_dice (int, optional): Number of dice in the hand. Defaults to
+            1.
             sides (int, optional): Number of sides on each die. Defaults to 6.
 
         Raises:

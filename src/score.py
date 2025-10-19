@@ -1,11 +1,13 @@
 """Score management module for the Pig game.
 
 Handles saving, loading, and updating player scores using a JSON file.
-Provides methods to record games, get high scores, rename players, and clear scores.
+Provides methods to record games, get high scores, rename players,
+and clear scores.
 """
 
 import json
 from datetime import date
+
 
 class Score:
     """Manages player scores."""
@@ -14,7 +16,8 @@ class Score:
         """Initialize the Score manager.
 
         Args:
-            file_path (str, optional): Path to the JSON file to store scores. Defaults to "scores.json".
+            file_path (str, optional): Path to the JSON file to store scores.
+            Defaults to "scores.json".
         """
         self.file_path = file_path
         self.scores = self.load_scores()
@@ -84,9 +87,11 @@ class Score:
 
         if new_name in self.scores:
             # merge stats
-            self.scores[new_name]["games"].extend(self.scores[old_name].get("games", []))
+            self.scores[new_name]["games"].extend(self.scores[old_name]
+                                                  .get("games", []))
             self.scores[new_name]["total_points"] = (
-                self.scores[new_name].get("total_points", 0) + self.scores[old_name].get("total_points", 0)
+                self.scores[new_name].get("total_points", 0)
+                + self.scores[old_name].get("total_points", 0)
             )
         else:
             # Move the entry to the new name

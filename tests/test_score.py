@@ -1,4 +1,5 @@
-"""Unit tests for Score: record games, retrieve scores, rename players, clear scores, and handle file I/O."""
+"""Unit tests for Score: record games, retrieve scores, rename players,
+clear scores, and handle file I/O."""
 
 import os
 import sys
@@ -6,15 +7,19 @@ import unittest
 from unittest.mock import mock_open, patch
 from datetime import date
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                "..", "src")))
+
 from score import Score
 
 
 class TestScore(unittest.TestCase):
-    """Test Score initialization, game recording, high-score retrieval, renaming, clearing, and edge cases."""
+    """Test Score initialization, game recording, high-score retrieval,
+    renaming, clearing, and edge cases."""
 
     def setUp(self):
-        """Patch file and JSON operations; create Score instance without touching disk."""
+        """Patch file and JSON operations; create Score instance without
+        touching disk."""
         self.mock_open = mock_open()
         patcher = patch("builtins.open", self.mock_open)
         self.addCleanup(patcher.stop)
@@ -33,7 +38,8 @@ class TestScore(unittest.TestCase):
     # --- Initialization & load --------------------------------------------
 
     def test_initial_scores_empty_when_file_missing(self):
-        """Initialize Score with nonexistent file and confirm empty dictionary."""
+        """Initialize Score with nonexistent file and confirm
+        empty dictionary."""
         self.mock_json_load.return_value = {}
         s = Score("nonexistent.json")
         self.assertEqual(s.scores, {})

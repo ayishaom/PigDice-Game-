@@ -1,4 +1,5 @@
-"""Unit tests for DiceHand: construction, rolling, total calculation, and flags."""
+"""Unit tests for DiceHand: construction, rolling, total calculation,
+and flags."""
 
 import os
 import sys
@@ -6,10 +7,12 @@ import unittest
 from unittest.mock import patch
 
 # Make src folder visible to import
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                '..', 'src')))
 
 from diceHand import DiceHand
 from dice import Dice
+
 
 # Robust target for patching randint from Dice module
 _DICE_MODULE = sys.modules[Dice.__module__]
@@ -17,7 +20,8 @@ _RANDINT_PATH = f"{_DICE_MODULE.__name__}.random.randint"
 
 
 class TestDiceHand(unittest.TestCase):
-    """Unit tests for the DiceHand class covering initialization, rolling, totals, and flags."""
+    """Unit tests for the DiceHand class covering initialization, rolling,
+    totals, and flags."""
 
     def setUp(self):
         """Set up a DiceHand instance with 2 six-sided dice for each test."""
@@ -28,7 +32,8 @@ class TestDiceHand(unittest.TestCase):
         self.assertEqual(len(self.hand), 2)
 
     def test_roll_returns_values_and_updates_state(self):
-        """Test that rolling updates values and all dice are within valid bounds."""
+        """Test that rolling updates values and all dice are within valid
+        bounds."""
         values = self.hand.roll()
         self.assertEqual(values, self.hand.values)
         for v in values:
@@ -72,7 +77,8 @@ class TestDiceHand(unittest.TestCase):
         self.assertFalse(self.hand.double_ones())
 
     def test_init_invalid_num_dice_raises(self):
-        """Test that initializing DiceHand with invalid number of dice raises ValueError."""
+        """Test that initializing DiceHand with invalid number of dice raises
+        ValueError."""
         with self.assertRaises(ValueError):
             DiceHand(num_dice=0)
 
@@ -81,7 +87,8 @@ class TestDiceHand(unittest.TestCase):
         self.assertEqual(len(self.hand), 2)
 
     def test_repr_returns_string(self):
-        """Test that repr(DiceHand) returns a string representation including dice values."""
+        """Test that repr(DiceHand) returns a string representation including
+        dice values."""
         self.hand.values = [2, 5]
         self.assertEqual(repr(self.hand), "DiceHand([2, 5])")
 
@@ -89,4 +96,3 @@ class TestDiceHand(unittest.TestCase):
 if __name__ == "__main__":
     """Run the DiceHand unit tests."""
     unittest.main()
-    

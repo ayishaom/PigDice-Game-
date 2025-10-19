@@ -1,15 +1,19 @@
-"""Unit tests for Player: construct instances, change names, and manipulate scores."""
+"""Unit tests for Player: construct instances, change names,
+and manipulate scores."""
 
 import os
 import sys
 import unittest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                "..", "src")))
+
 from player import Player
 
 
 class TestPlayer(unittest.TestCase):
-    """Test Player creation, name updates, score operations, and instance isolation."""
+    """Test Player creation, name updates, score operations,
+    and instance isolation."""
 
     # --- Construction ------------------------------------------------------
 
@@ -99,7 +103,8 @@ class TestPlayer(unittest.TestCase):
     # --- Instance isolation ------------------------------------------------
 
     def test_multiple_players_independent_state(self):
-        """Ensure multiple Player instances maintain independent names and scores."""
+        """Ensure multiple Player instances maintain independent
+        names and scores."""
         a = Player("Ana")
         b = Player("Ben", is_ai=True)
         a.add_score(5)
