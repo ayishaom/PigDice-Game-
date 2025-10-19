@@ -25,9 +25,25 @@
             {
                 "date": "2025-10-15",
                 "points": 101
+            },
+            {
+                "date": "2025-10-16",
+                "points": 100
+            },
+            {
+                "date": "2025-10-16",
+                "points": 103
+            },
+            {
+                "date": "2025-10-16",
+                "points": 102
+            },
+            {
+                "date": "2025-10-16",
+                "points": 100
             }
         ],
-        "total_points": 101
+        "total_points": 506
     },
     "Angelina": {
         "games": [
@@ -41,5 +57,40 @@
             }
         ],
         "total_points": 200
+    },
+    "Lulu": {
+        "games": [
+            {
+                "date": "2025-10-16",
+                "points": 100
+            }
+        ],
+        "total_points": 100
+    },
+    "MT": {
+        "games": [
+            {
+                "date": "2025-10-16",
+                "points": 100
+            },
+            {
+                "date": "2025-10-16",
+                "points": 102
+            }
+        ],
+        "total_points": 202
+    },
+    "MK": {
+        "games": [
+            {
+                "date": "2025-10-16",
+                "points": 111
+            },
+            {
+                "date": "2025-10-16",
+                "points": 119
+            }
+        ],
+        "total_points": 230
     }
 }

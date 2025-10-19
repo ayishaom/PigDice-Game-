@@ -1,3 +1,9 @@
+"""Game module.
+
+Defines the Game class for managing the full game.
+Handles two players, turn logic, dice rolls, AI decisions, and score tracking.
+"""
+
 from typing import List, Optional
 from diceHand import DiceHand
 from intelligence import Intelligence
@@ -8,12 +14,33 @@ DICE_FACE_BASE = 0x2680  # ⚀ is U+2680
 
 
 def dice_face(n: int) -> str:
+    """Return a Unicode character representing a dice face for numbers 1–6.
+
+    Args:
+        n (int): Number rolled on the dice.
+
+    Returns:
+        str: Unicode ⚀–⚅ for 1–6, or str(n) if out of range.
+    """
     if 1 <= n <= 6:
         return chr(DICE_FACE_BASE + n - 1)
     return str(n)
 
 
 class PigGame:
+    """Main class for managing a Pig dice game.
+
+    Attributes:
+        players (List[Player]): List of two players in the game.
+        score_manager (Score): Score tracking manager.
+        winning_score (int): Score required to win the game.
+        dice_hand (DiceHand): Dice hand used for rolls.
+        ai_agent (Intelligence): Optional AI agent for computer player.
+        current_index (int): Index of the current player (0 or 1).
+        turn_total (int): Accumulated score in the current turn.
+        running (bool): Whether the game loop is active.
+    """
+
     def __init__(
         self,
         players: List[Player],
@@ -22,6 +49,18 @@ class PigGame:
         dice_hand: Optional[DiceHand] = None,
         ai_agent: Optional[Intelligence] = None,
     ):
+        """Initialize a PigGame instance.
+
+        Args:
+            players (List[Player]): Two players for the game.
+            score_manager (Score): Score tracking manager.
+            winning_score (int, optional): Points needed to win. Defaults to 100.
+            dice_hand (Optional[DiceHand], optional): Dice hand to use. Defaults to None.
+            ai_agent (Optional[Intelligence], optional): AI agent for computer player. Defaults to None.
+
+        Raises:
+            ValueError: If `players` does not contain exactly two players.
+        """
         if len(players) != 2:
             raise ValueError("PigGame requires exactly two players.")
         self.players = players
@@ -36,6 +75,7 @@ class PigGame:
     # ----------------- UI helpers -----------------
 
     def show_board(self):
+        """Display the current game board with player scores and icons."""
         p0, p1 = self.players
         a0 = "🤖" if p0.is_ai else "👤"
         a1 = "🤖" if p1.is_ai else "👤"
@@ -50,6 +90,11 @@ class PigGame:
         print("═" * 60)
 
     def _prompt_cmd(self) -> str:
+        """Prompt the human player for a command and return it.
+
+        Returns:
+            str: The player's chosen command.
+        """
         valid = {
             "r": "roll", "roll": "roll",
             "h": "hold", "hold": "hold",
@@ -75,6 +120,11 @@ class PigGame:
             print("⚠️  Unknown command. Type 'help' for allowed commands.")
 
     def _prompt_ai_level(self) -> Optional[str]:
+        """Prompt the user to select AI difficulty and return the chosen level.
+
+        Returns:
+            Optional[str]: 'easy', 'medium', 'hard', or None if cancelled.
+        """
         valid = {"easy", "medium", "hard"}
         while True:
             try:
@@ -90,6 +140,7 @@ class PigGame:
             print("⚠️  Invalid difficulty. Choose: easy, medium, or hard.")
 
     def _help_text(self):
+        """Return the help text describing available commands for the current turn."""
         return (
             "\n🆘 HELP\n"
             "Commands during your turn:\n"
@@ -105,6 +156,10 @@ class PigGame:
     # ----------------- Main loop -----------------
 
     def play(self):
+        """Run the main game loop until a player wins or quits.
+
+        Handles turn switching, rolling, holding, cheating, AI decisions, and score updates.
+        """
         self.running = True
         while self.running:
             self.show_board()

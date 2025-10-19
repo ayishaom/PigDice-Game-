@@ -1,3 +1,8 @@
+"""Menu system for the Pig game.
+
+Handles game start, player setup, high scores, rules, and user input.
+"""
+
 from player import Player
 from score import Score
 from intelligence import Intelligence
@@ -5,13 +10,19 @@ from game import PigGame
 
 
 class Menu:
+    """Main menu interface for the Pig dice game.
+
+    Handles menu display, input validation, and launching single- or
+    two-player games, as well as showing high scores and rules.
+    """
+
     def __init__(self):
+        """Initialize the menu state."""
         self.running = True
 
-    # ----------------- Public API -----------------
-
+   
     def run(self):
-        """Main menu loop with resilient input handling."""
+        """Run the main menu loop until the user chooses to quit."""
         while self.running:
             try:
                 self.display_options()
@@ -22,6 +33,7 @@ class Menu:
                 self.running = False
 
     def display_options(self):
+        """Display the main menu options to the user."""
         title = "🎲  PIG (DICE GAME)  🎲"
         border = "═" * 40
         print("\n" + border)
@@ -34,6 +46,7 @@ class Menu:
         print("5️⃣  Quit 🚪\n")
 
     def handle_choice(self, choice: str):
+        """Handle the user's menu selection."""
         if choice == "1":
             self.start_single_player()
         elif choice == "2":
@@ -46,14 +59,10 @@ class Menu:
             self.running = False
             print("\n🙏 Thanks for playing! Goodbye. 👋\n")
         else:
-            # This should not happen because _prompt_menu_choice validates,
-            # but we keep a fallback just in case.
             print("❌ Invalid choice, please try again.\n")
 
-    # ----------------- Game-launching Methods -----------------
-
     def start_single_player(self):
-        """Start a game vs computer (with validated inputs)."""
+        """Start a game vs computer."""
         name = self._prompt_nonempty_name("👤 Enter your name [Player]: ", default="Player")
         human = Player(name, is_ai=False)
         computer = Player("Computer", is_ai=True)
@@ -69,7 +78,7 @@ class Menu:
         game.play()
 
     def start_two_player(self):
-        """Start a two-player local game (with validated inputs)."""
+        """Start a two-player local game."""
         name1 = self._prompt_nonempty_name("👤 Enter Player 1 name [Player1]: ", default="Player1")
         name2 = self._prompt_nonempty_name("👤 Enter Player 2 name [Player2]: ", default="Player2")
 
@@ -82,7 +91,7 @@ class Menu:
         game.play()
 
     def show_high_scores(self):
-        """Show saved high scores using Score and Histogram."""
+        """Display high scores and histogram of player totals."""
         score_manager = Score()
         highs = score_manager.get_high_scores()
         if not highs:
@@ -94,7 +103,6 @@ class Menu:
         # Compatibility line for tests expecting "High Scores"
         print("\n-- High Scores --")
 
-        # Styled header
         print("\n🏅 -- HIGH SCORES (BY TOTAL POINTS) -- 🏅\n")
 
         for idx, (name, stats) in enumerate(highs, start=1):
@@ -104,10 +112,9 @@ class Menu:
             print(line)
 
     def show_rules(self):
-        # Compatibility line for tests expecting this exact text
+        """Display the rules of the Pig dice game to the user."""
         print("PIG DICE — RULES")
 
-        # Styled rules block
         print("""
 📖 PIG (DICE GAME) — RULES
 
@@ -137,9 +144,9 @@ Cheat & options:
             print("🚫 Please enter a number between 1 and 5.\n")
 
     def _prompt_nonempty_name(self, prompt: str, default: str) -> str:
-        """
-        Ask for a name; accept default on empty input.
-        Reject names that are only whitespace.
+        """Prompt the user for a name and return it.
+
+        Uses a default if input is empty. Rejects names that are only whitespace.
         """
         while True:
             raw = input(prompt)
