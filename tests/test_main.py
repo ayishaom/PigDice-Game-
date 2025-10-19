@@ -1,4 +1,4 @@
-"""Unit tests for the main module: construction, execution, and guard behavior."""
+"""Test the main module: construction, execution, and guard behavior."""
 import os
 import sys
 import io
@@ -11,22 +11,23 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 
 class TestMainModule(unittest.TestCase):
+    """Test main module entrypoints, menu instantiation, and execution guards."""
     def setUp(self):
-        # Ensure a fresh import context for each test
+        """Reset import state for a fresh main module before each test."""
         if "main" in sys.modules:
             del sys.modules["main"]
 
     # --- Helpers ------------------------------------------------------------
 
     def _import_main(self):
-        """Import the main module freshly."""
+        """Import the main module freshly and return it."""
         import main
         return sys.modules["main"]
 
     # --- Tests --------------------------------------------------------------
 
     def test_importing_main_does_not_run_program(self):
-        """Importing the module (name == 'main') must NOT start the menu loop."""
+        """Ensure importing main does not execute the program or menu loop."""
         with patch("menu.Menu") as MockMenu:
             mod = self._import_main()
         self.assertTrue(hasattr(mod, "main"))
@@ -34,7 +35,7 @@ class TestMainModule(unittest.TestCase):
         self.assertFalse(MockMenu.called)
 
     def test_main_constructs_menu_and_runs_once(self):
-        """main() should instantiate Menu() and call run() exactly once."""
+        """Verify main() constructs Menu and calls run() exactly once."""
         mod = self._import_main()
         with patch("main.Menu") as MockMenu:
             instance = MockMenu.return_value
@@ -44,7 +45,7 @@ class TestMainModule(unittest.TestCase):
         instance.run.assert_called_once_with()
 
     def test_main_returns_none(self):
-        """main() has no return value (explicitly None)."""
+        """Check that main() has no return value (explicitly None)."""
         mod = self._import_main()
         with patch("main.Menu") as MockMenu:
             result = mod.main()
@@ -53,7 +54,7 @@ class TestMainModule(unittest.TestCase):
         self.assertEqual(MockMenu.return_value.run.call_count, 1)
 
     def test_multiple_main_calls_create_new_menu_each_time(self):
-        """Each call to main() creates a new Menu instance (no reuse)."""
+        """Ensure each call to main() creates a new Menu instance (no reuse)."""
         mod = self._import_main()
         with patch("main.Menu") as MockMenu:
             mod.main()
@@ -62,7 +63,7 @@ class TestMainModule(unittest.TestCase):
         self.assertEqual(MockMenu.return_value.run.call_count, 2)
 
     def test_main_propagates_keyboard_interrupt(self):
-        """Exceptions in Menu.run (e.g., KeyboardInterrupt) should propagate (no swallow)."""
+        """Check that KeyboardInterrupt in Menu.run propagates."""
         mod = self._import_main()
         with patch("main.Menu") as MockMenu:
             MockMenu.return_value.run.side_effect = KeyboardInterrupt
@@ -71,7 +72,7 @@ class TestMainModule(unittest.TestCase):
         MockMenu.assert_called_once()
 
     def test_main_propagates_generic_exception(self):
-        """Generic errors from Menu.run should also propagate."""
+        """Verify that generic exceptions in Menu.run propagate."""
         mod = self._import_main()
         with patch("main.Menu") as MockMenu:
             MockMenu.return_value.run.side_effect = ValueError("boom")
@@ -80,7 +81,7 @@ class TestMainModule(unittest.TestCase):
         MockMenu.assert_called_once()
 
     def test_main_prints_nothing(self):
-        """main() itself should not print; any output is owned by Menu.run()."""
+        """Ensure main() does not print; Menu.run handles all output."""
         mod = self._import_main()
         with patch("main.Menu") as MockMenu, patch("sys.stdout", new=io.StringIO()) as out:
             MockMenu.return_value.run.side_effect = lambda: None
@@ -88,14 +89,14 @@ class TestMainModule(unittest.TestCase):
             self.assertEqual(out.getvalue(), "")
 
     def test_main_signature_has_no_parameters(self):
-        """main() is a zero-arg function (simple entrypoint)."""
+        """Check that main() is a zero-arg function (simple entrypoint)."""
         mod = self._import_main()
         import inspect
         sig = inspect.signature(mod.main)
         self.assertEqual(len(sig.parameters), 0)
 
     def test_reload_main_does_not_run_program(self):
-        """Reloading the module (name == 'main') must not execute the program."""
+        """Ensure reloading main does not execute the program body."""
         # First import
         mod1 = self._import_main()
         with patch("menu.Menu") as MockMenu:
@@ -105,10 +106,7 @@ class TestMainModule(unittest.TestCase):
         self.assertFalse(MockMenu.called)
 
     def test_run_as_script_guard_invokes_main(self):
-        """
-        Simulate running the file as a script by executing the module with __name__='__main__'.
-        Then ensure Menu() is constructed and run() called.
-        """
+        """Simulate running main.py as a script and check Menu instantiation and run()."""
         import runpy
         # Ensure fresh state and patch after import resolution
         path_to_main = os.path.join(os.path.dirname(__file__), "..", "src", "main.py")
