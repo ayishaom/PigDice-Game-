@@ -141,8 +141,7 @@ class PigGame:
         while True:
             try:
                 raw = input(
-                    "➤ Set AI difficulty (easy, medium, hard) "
-                    "[Enter to cancel]: "
+                    "➤ Set AI difficulty (easy, medium, hard) " "[Enter to cancel]: "
                 )
             except (EOFError, KeyboardInterrupt):
                 print("\n❌ Cancelled.")
@@ -186,14 +185,9 @@ class PigGame:
             self.turn_total = 0
 
             turn_header = (
-                "🤖  " + current.name
-                if current.is_ai
-                else "👤  " + current.name
+                "🤖  " + current.name if current.is_ai else "👤  " + current.name
             )
-            print(
-                f"\n--- {turn_header}'s turn ---  "
-                "(type 'help' for commands)\n"
-            )
+            print(f"\n--- {turn_header}'s turn ---  " "(type 'help' for commands)\n")
 
             turn_active = True
 
@@ -213,15 +207,12 @@ class PigGame:
                         continue
                     if decision == "quit":
                         print(
-                            "\n👋 Quitting current game and returning to "
-                            "menu...\n"
+                            "\n👋 Quitting current game and returning to " "menu...\n"
                         )
                         self.running = False
                         return
                     if decision == "restart":
-                        print(
-                            "\n🔄 Restarting current match (scores reset).\n"
-                        )
+                        print("\n🔄 Restarting current match (scores reset).\n")
                         for p in self.players:
                             p.reset_score()
                         turn_active = False
@@ -232,9 +223,7 @@ class PigGame:
                             if level:
                                 try:
                                     self.ai_agent.set_difficulty(level)
-                                    print(
-                                        f"🔧 AI difficulty set to {level}."
-                                    )
+                                    print(f"🔧 AI difficulty set to {level}.")
                                 except Exception as e:
                                     print("⚠️  Invalid difficulty:", e)
                         else:
@@ -245,9 +234,7 @@ class PigGame:
                         continue
                     if decision == "name":
                         try:
-                            new_name = input(
-                                "➤ Enter new name [Enter to cancel]: "
-                            )
+                            new_name = input("➤ Enter new name [Enter to cancel]: ")
                         except (EOFError, KeyboardInterrupt):
                             print("\n❌ Name change cancelled.")
                             continue
@@ -256,14 +243,11 @@ class PigGame:
                             print("❌ Name change cancelled.")
                             continue
                         old = current.name
-                        renamed = self.score_manager.rename_player(
-                            old, new_name
-                        )
+                        renamed = self.score_manager.rename_player(old, new_name)
                         current.set_name(new_name)
                         if renamed:
                             print(
-                                f"✍️  Renamed {old} → {new_name} and "
-                                "preserved stats."
+                                f"✍️  Renamed {old} → {new_name} and " "preserved stats."
                             )
                         else:
                             print(
@@ -295,10 +279,7 @@ class PigGame:
                             f"➕ Turn total is now {self.turn_total}. "
                             "(Hold to bank points)"
                         )
-                        if (
-                            current.total_score + self.turn_total
-                            >= self.winning_score
-                        ):
+                        if current.total_score + self.turn_total >= self.winning_score:
                             current.add_score(self.turn_total)
                             print(
                                 f"\n🏆 {current.name} reaches "

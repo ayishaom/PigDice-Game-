@@ -46,11 +46,12 @@ class Histogram:
         lines = []
         for name, stats in players_scores:
             for game in stats.get("games", []):
-                points = game.get('points', 0)
+                points = game.get("points", 0)
                 bar_length = int(points / self.scale)
                 bar = "*" * bar_length
-                lines.append(f"{name:^12} | {points:^6} | {bar} ("
-                             f"{game.get('date')})")
+                lines.append(
+                    f"{name:^12} | {points:^6} | {bar} (" f"{game.get('date')})"
+                )
         return lines
 
     def key(self):
@@ -58,6 +59,6 @@ class Histogram:
         lines = [
             "------------ KEY ------------",
             "*  | Bar represents points scored",
-            f"Note: bar length scaled by {self.scale} points per *"
+            f"Note: bar length scaled by {self.scale} points per *",
         ]
         return lines

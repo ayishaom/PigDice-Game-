@@ -1,7 +1,14 @@
+# Testing
 pytest==8.4.2
-pytest-cov
-coverage
-pylint
-flake8
-flake8-docstrings
-flake8-polyfill
+pytest-cov>=4.1
+coverage>=7.6
+
+# Linters & formatting
+flake8>=6.1
+flake8-docstrings>=1.7
+flake8-polyfill>=1.0
+pylint>=3.0
+black>=24.0
+
+# API docs (pdoc)
+pdoc>=14.0

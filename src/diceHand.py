@@ -1,7 +1,7 @@
 """DiceHand module.
 
 Group of dice that can be rolled together.
-Handles multiple dice, stores their values, and provides 
+Handles multiple dice, stores their values, and provides
 helper methods such as total sum, checking if any die shows 1,
 and detecting doubles (for variants of the Pig game).
 """

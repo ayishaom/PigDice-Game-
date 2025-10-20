@@ -17,11 +17,7 @@ Deterministic and testable; no randomness or I/O.
 class Intelligence:
     """Represents AI decision-making for the Pig dice game."""
 
-    def __init__(
-            self,
-            hold_threshold: int = 20,
-            difficulty: str = "medium"
-            ) -> None:
+    def __init__(self, hold_threshold: int = 20, difficulty: str = "medium") -> None:
         """
         Initialize the AI with a hold threshold and difficulty level.
 
@@ -51,8 +47,9 @@ class Intelligence:
         """
         valid_levels = {"easy", "medium", "hard"}
         if level not in valid_levels:
-            raise ValueError("Invalid difficulty level. Choose 'easy', "
-                             "'medium', or 'hard'.")
+            raise ValueError(
+                "Invalid difficulty level. Choose 'easy', " "'medium', or 'hard'."
+            )
         self.difficulty = level
         if level == "easy":
             self.hold_threshold = 15
@@ -61,12 +58,7 @@ class Intelligence:
         else:
             self.hold_threshold = 25
 
-    def decide(
-            self,
-            turn_total: int,
-            my_score: int,
-            opponent_score: int
-            ) -> str:
+    def decide(self, turn_total: int, my_score: int, opponent_score: int) -> str:
         """
         Decide whether to 'roll' or 'hold' based on game state.
 
@@ -100,12 +92,7 @@ class Intelligence:
         # --- Hard difficulty: strategic AI ---
         return self._decide_hard(turn_total, my_score, opponent_score)
 
-    def _decide_hard(
-            self,
-            turn_total: int,
-            my_score: int,
-            opponent_score: int
-            ) -> str:
+    def _decide_hard(self, turn_total: int, my_score: int, opponent_score: int) -> str:
         """Hard AI: considers opponent proximity, score gap, and turn total."""
         if my_score + turn_total >= 100:
             return "hold"
@@ -118,15 +105,15 @@ class Intelligence:
         elif score_gap > 15:
             base_threshold -= 5  # ahead → hold sooner
 
-    # Opponent near winning → hold sooner
+        # Opponent near winning → hold sooner
         if opponent_score >= 90:
             base_threshold = min(base_threshold, 10)
 
-    # Decide based on turn total
+        # Decide based on turn total
         if turn_total >= base_threshold:
             return "hold"
 
-    # Risk factor
+        # Risk factor
         p_lose = 1 / 6
         risk_factor = p_lose * turn_total
         return "roll" if risk_factor < 5 else "hold"

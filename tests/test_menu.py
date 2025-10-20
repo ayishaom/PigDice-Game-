@@ -6,7 +6,9 @@ import io
 import unittest
 from unittest.mock import patch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 from menu import Menu
 
@@ -47,14 +49,14 @@ class TestMenu(unittest.TestCase):
     @patch("menu.Intelligence")
     @patch("menu.Score")
     @patch("menu.Player")
-    def test_single_player_defaults(self, MockPlayer, MockScore,
-                                    MockIntelligence, MockPigGame):
+    def test_single_player_defaults(
+        self, MockPlayer, MockScore, MockIntelligence, MockPigGame
+    ):
         """Start single-player game with default names and AI difficulty."""
         out = self._run_with_inputs(["1", "", "", "5"])
         self.assertTrue(MockPigGame.called)
         MockPigGame.return_value.play.assert_called_once()
-        MockIntelligence.return_value.set_difficulty.assert_called_once_with(
-            "medium")
+        MockIntelligence.return_value.set_difficulty.assert_called_once_with("medium")
         self.assertIn("Play against computer", out)
 
     @patch("menu.PigGame")
@@ -101,7 +103,8 @@ class TestMenu(unittest.TestCase):
         ]
         MockHistogram.return_value.generate_total.return_value = [
             "Ana | ******",
-            "Ben | *****"]
+            "Ben | *****",
+        ]
         out = self._run_with_inputs(["3", "5"])
         self.assertIn("High Scores", out)
         self.assertIn("Ana", out)
@@ -124,16 +127,11 @@ class TestMenu(unittest.TestCase):
     @patch("menu.Score")
     @patch("menu.Player")
     def test_single_player_invalid_then_valid_difficulty(
-            self,
-            MockPlayer,
-            MockScore,
-            MockIntelligence,
-            MockPigGame
-            ):
+        self, MockPlayer, MockScore, MockIntelligence, MockPigGame
+    ):
         """Warn on invalid AI difficulty and accept valid input."""
         out = self._run_with_inputs(["1", "", "crazy", "hard", "5"])
-        MockIntelligence.return_value.set_difficulty.assert_called_once_with(
-            "hard")
+        MockIntelligence.return_value.set_difficulty.assert_called_once_with("hard")
         self.assertTrue(MockPigGame.called)
         self.assertIn("Invalid difficulty", out)
 
@@ -142,23 +140,19 @@ class TestMenu(unittest.TestCase):
     @patch("menu.Score")
     @patch("menu.Player")
     def test_single_player_name_trims_and_default(
-            self,
-            MockPlayer,
-            MockScore,
-            MockIntelligence,
-            MockPigGame
-            ):
+        self, MockPlayer, MockScore, MockIntelligence, MockPigGame
+    ):
         """Trim whitespace from player name and use default AI difficulty."""
         out = self._run_with_inputs(["1", "   Alice  ", "", "5"])
         first_call_args, first_call_kwargs = MockPlayer.call_args_list[0]
         self.assertEqual(first_call_args[0], "Alice")
         self.assertIn("Play against computer", out)
-        MockIntelligence.return_value.set_difficulty.assert_called_once_with(
-            "medium")
+        MockIntelligence.return_value.set_difficulty.assert_called_once_with("medium")
 
     def test_keyboard_interrupt_exits_cleanly(self):
         """Exit the menu loop safely on KeyboardInterrupt."""
         import io
+
         out = io.StringIO()
         with (
             patch("builtins.input", side_effect=KeyboardInterrupt),
