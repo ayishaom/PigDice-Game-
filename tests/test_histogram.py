@@ -4,7 +4,9 @@ import os
 import sys
 import unittest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 from histogram import Histogram
 
@@ -108,8 +110,10 @@ class TestHistogram(unittest.TestCase):
         key_lines = self.hist_default.key()
         self.assertIn("------------ KEY ------------", key_lines[0])
         self.assertIn("*  | Bar represents points scored", key_lines)
-        self.assertIn(f"Note: bar length scaled by {self.hist_default.scale} "
-                      f"points per *", key_lines)
+        self.assertIn(
+            f"Note: bar length scaled by {self.hist_default.scale} " f"points per *",
+            key_lines,
+        )
 
     def test_zero_and_negative_points(self):
         """Verify histogram behavior for zero and negative points."""

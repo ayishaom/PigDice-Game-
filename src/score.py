@@ -40,15 +40,9 @@ class Score:
         today = str(date.today())
 
         if player_name not in self.scores:
-            self.scores[player_name] = {
-                "games": [],
-                "total_points": 0
-            }
+            self.scores[player_name] = {"games": [], "total_points": 0}
 
-        self.scores[player_name]["games"].append({
-            "date": today,
-            "points": points
-        })
+        self.scores[player_name]["games"].append({"date": today, "points": points})
 
         # Update total points
         self.scores[player_name]["total_points"] += points
@@ -63,9 +57,7 @@ class Score:
             list of tuples: [(player_name, {stats}), ...]
         """
         return sorted(
-            self.scores.items(),
-            key=lambda x: x[1].get("total_points", 0),
-            reverse=True
+            self.scores.items(), key=lambda x: x[1].get("total_points", 0), reverse=True
         )
 
     def get_player_history(self, name: str):
@@ -87,12 +79,12 @@ class Score:
 
         if new_name in self.scores:
             # merge stats
-            self.scores[new_name]["games"].extend(self.scores[old_name]
-                                                  .get("games", []))
-            self.scores[new_name]["total_points"] = (
-                self.scores[new_name].get("total_points", 0)
-                + self.scores[old_name].get("total_points", 0)
+            self.scores[new_name]["games"].extend(
+                self.scores[old_name].get("games", [])
             )
+            self.scores[new_name]["total_points"] = self.scores[new_name].get(
+                "total_points", 0
+            ) + self.scores[old_name].get("total_points", 0)
         else:
             # Move the entry to the new name
             self.scores[new_name] = self.scores.pop(old_name)

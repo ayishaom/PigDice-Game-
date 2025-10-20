@@ -12,8 +12,9 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 # Path shim: adjust if your layout differs
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                "..", "src")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 from game import PigGame
 from player import Player
@@ -91,8 +92,9 @@ class TestPigGame(unittest.TestCase):
         """Test renaming a player preserves stats and updates score manager."""
         self.p1.add_score(4)
         out = self.run_game_with_inputs(["name", "NewName", "q"])
-        self.assertTrue(("Renamed P1 -> NewName" in out) or (
-            "Renamed P1 → NewName" in out))
+        self.assertTrue(
+            ("Renamed P1 -> NewName" in out) or ("Renamed P1 → NewName" in out)
+        )
         self.score.rename_player.assert_called_once_with("P1", "NewName")
         self.assertEqual(self.p1.get_name(), "NewName")
 
@@ -112,8 +114,7 @@ class TestPigGame(unittest.TestCase):
         """Test that AI difficulty change works when an AI opponent exists."""
         self.p2.is_ai = True
         out = self.run_game_with_inputs(["ai", "hard", "q"])
-        self.assertTrue(
-            ("AI difficulty set to hard" in out) or ("set to hard" in out))
+        self.assertTrue(("AI difficulty set to hard" in out) or ("set to hard" in out))
         self.game.ai_agent.set_difficulty.assert_called_once_with("hard")
 
     def test_restart_resets_scores(self):
@@ -195,8 +196,12 @@ class TestPigGame(unittest.TestCase):
         """Test that holding can trigger a win and records the game."""
         self.p1.set_score(10)
         g = PigGame(
-            [self.p1, self.p2], Score(), winning_score=10,
-            dice_hand=self.dice, ai_agent=self.ai)
+            [self.p1, self.p2],
+            Score(),
+            winning_score=10,
+            dice_hand=self.dice,
+            ai_agent=self.ai,
+        )
         out = io.StringIO()
         with (
             patch("builtins.input", side_effect=["h"]),
@@ -214,8 +219,8 @@ class TestPigGame(unittest.TestCase):
         dice = MagicMock()
         dice.roll.return_value = []
         g = PigGame(
-            [Player("P1"), Player("P2")], Score(), dice_hand=dice,
-            ai_agent=self.ai)
+            [Player("P1"), Player("P2")], Score(), dice_hand=dice, ai_agent=self.ai
+        )
         out = io.StringIO()
         with (
             patch("builtins.input", side_effect=["r", "q"]),

@@ -1,4 +1,5 @@
 """Test the main module: construction, execution, and guard behavior."""
+
 import os
 import sys
 import io
@@ -7,13 +8,15 @@ import importlib
 import unittest
 from unittest.mock import patch, MagicMock
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                "..", "src")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 
 class TestMainModule(unittest.TestCase):
     """Test main module entrypoints, menu instantiation,
     and execution guards."""
+
     def setUp(self):
         """Reset import state for a fresh main module before each test."""
         if "main" in sys.modules:
@@ -24,6 +27,7 @@ class TestMainModule(unittest.TestCase):
     def _import_main(self):
         """Import the main module freshly and return it."""
         import main
+
         return sys.modules["main"]
 
     # --- Tests --------------------------------------------------------------
@@ -98,6 +102,7 @@ class TestMainModule(unittest.TestCase):
         """Check that main() is a zero-arg function (simple entrypoint)."""
         mod = self._import_main()
         import inspect
+
         sig = inspect.signature(mod.main)
         self.assertEqual(len(sig.parameters), 0)
 
@@ -115,9 +120,9 @@ class TestMainModule(unittest.TestCase):
         """Simulate running main.py as a script and check Menu
         instantiation and run()."""
         import runpy
+
         # Ensure fresh state and patch after import resolution
-        path_to_main = os.path.join(os.path.dirname(__file__), "..", "src",
-                                    "main.py")
+        path_to_main = os.path.join(os.path.dirname(__file__), "..", "src", "main.py")
         path_to_main = os.path.abspath(path_to_main)
 
         # We need to patch 'menu.Menu' because main.py does

@@ -25,8 +25,7 @@ class Menu:
         while self.running:
             try:
                 self.display_options()
-                choice = self._prompt_menu_choice("👉 Enter your choice "
-                                                  "(1-5): ")
+                choice = self._prompt_menu_choice("👉 Enter your choice " "(1-5): ")
                 self.handle_choice(choice)
             except (KeyboardInterrupt, EOFError):
                 print("\n👋 Exiting… Goodbye.")
@@ -63,16 +62,18 @@ class Menu:
 
     def start_single_player(self):
         """Start a game vs computer."""
-        name = self._prompt_nonempty_name("👤 Enter your name "
-                                          "[Player]: ", default="Player")
+        name = self._prompt_nonempty_name(
+            "👤 Enter your name " "[Player]: ", default="Player"
+        )
         human = Player(name, is_ai=False)
         computer = Player("Computer", is_ai=True)
 
         score_manager = Score()
 
-        level = self._prompt_difficulty("⚙️ Choose AI difficulty "
-                                        "(easy, medium, hard) [medium]: ",
-                                        default="medium")
+        level = self._prompt_difficulty(
+            "⚙️ Choose AI difficulty " "(easy, medium, hard) [medium]: ",
+            default="medium",
+        )
         ai_agent = Intelligence()
         ai_agent.set_difficulty(level)
 
@@ -82,10 +83,12 @@ class Menu:
 
     def start_two_player(self):
         """Start a two-player local game."""
-        name1 = self._prompt_nonempty_name("👤 Enter Player 1 name "
-                                           "[Player1]: ", default="Player1")
-        name2 = self._prompt_nonempty_name("👤 Enter Player 2 name "
-                                           "[Player2]: ", default="Player2")
+        name1 = self._prompt_nonempty_name(
+            "👤 Enter Player 1 name " "[Player1]: ", default="Player1"
+        )
+        name2 = self._prompt_nonempty_name(
+            "👤 Enter Player 2 name " "[Player2]: ", default="Player2"
+        )
 
         p1 = Player(name1, is_ai=False)
         p2 = Player(name2, is_ai=False)
@@ -103,6 +106,7 @@ class Menu:
             print("\n📭 No scores recorded yet.\n")
             return
         from histogram import Histogram
+
         h = Histogram(scale=10)
 
         # Compatibility line for tests expecting "High Scores"
@@ -111,8 +115,10 @@ class Menu:
         print("\n🏅 -- HIGH SCORES (BY TOTAL POINTS) -- 🏅\n")
 
         for idx, (name, stats) in enumerate(highs, start=1):
-            print(f"{idx}. {name}: {stats.get('total_points', 0)} points "
-                  f"({len(stats.get('games', []))} games)")
+            print(
+                f"{idx}. {name}: {stats.get('total_points', 0)} points "
+                f"({len(stats.get('games', []))} games)"
+            )
         print("\n📊 Histogram (total points):\n")
         for line in h.generate_total(highs):
             print(line)
@@ -121,7 +127,8 @@ class Menu:
         """Display the rules of the Pig dice game to the user."""
         print("PIG DICE — RULES")
 
-        print("""
+        print(
+            """
 📖 PIG (DICE GAME) — RULES
 
 - Players take turns to roll one die 🎲
@@ -136,7 +143,8 @@ Cheat & options:
 - Type 'restart' to reset both players' scores 🔄
 - Use 'ai' during your turn to change AI difficulty (easy, medium, hard) 🤖
 - Type 'name' to change a player's name 👤
-""")
+"""
+        )
 
     # ----------------- Input Helpers (Validation) -----------------
 
