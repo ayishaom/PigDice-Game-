@@ -240,7 +240,7 @@ export PYTHONPATH="$(realpath src)"
 rm -rf doc/api
 ```
 
-5.. To automatically generate HTML documentation for all modules:
+5. To automatically generate HTML documentation for all modules:
 ```bash
 pdoc --output-dir doc/api $(find src -name "*.py" -exec basename {} .py \;)
 ```
