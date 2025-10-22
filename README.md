@@ -279,15 +279,15 @@ pip install pylint graphviz
 ```
 
 3. #### Install the Graphviz system tool (Windows)
-   1. Download the **Graphviz installer** from the official website:  
+   i. Download the **Graphviz installer** from the official website:  
       👉 [https://graphviz.org/download/](https://graphviz.org/download/)
 
-   2. Run the installer and make sure to **check** the box:  
+   ii. Run the installer and make sure to **check** the box:  
       > “Add Graphviz to the system PATH for current user”
    
-   3. After installation, **close and reopen your terminal** so the PATH updates.
+   iii. After installation, **close and reopen your terminal** so the PATH updates.
    
-   4. Verify that Graphviz was installed correctly:
+   iv. Verify that Graphviz was installed correctly:
       ```bash
       dot -V
       ```
@@ -295,7 +295,6 @@ pip install pylint graphviz
       ```
       dot - graphviz version 14.0.2 (2024-…)
    ```
-
 4. Generate UML diagrams:
 ```bash
 pyreverse -o png -p PigDiceGame src/
