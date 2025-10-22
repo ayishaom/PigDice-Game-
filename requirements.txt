@@ -10,5 +10,6 @@ flake8-polyfill>=1.0
 pylint>=3.0
 black>=24.0
 
-# API docs (pdoc)
+# API docs (pdoc, graphviz)
 pdoc>=14.0
+graphviz>=0.20

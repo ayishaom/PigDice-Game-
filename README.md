@@ -235,14 +235,19 @@ cd /path/to/project
 export PYTHONPATH="$(realpath src)"
 ```
 
-4. To automatically generate HTML documentation for all modules:
+4. (Optional) Clean old documentation:
+```bash
+rm -rf doc/api
+```
+
+5.. To automatically generate HTML documentation for all modules:
 ```bash
 pdoc --output-dir doc/api $(find src -name "*.py" -exec basename {} .py \;)
 ```
 
-5. To view documentation in a web browser:
+6. To view documentation in a web browser:
 ```
-doc/api/index.html
+explorer.exe "$(cygpath -w doc/api/index.html)"
 ```
 
 ---
@@ -258,7 +263,10 @@ They are stored in the `doc/uml` directory.
 ### Regenerating UML Diagrams
 To regenerate UML diagrams from the Python code, follow these steps:
 
-> **Note:** Make sure Graphviz is installed and added to your system PATH so that `pyreverse` can generate diagrams without errors.
+> **Note:** Make sure **Graphviz** is installed and added to your system PATH.  
+> If you haven’t installed it yet, **see step 3 below** for detailed installation instructions.  
+> Without Graphviz, `pyreverse` will not be able to generate the UML diagram images.
+
 
 1. Activate the virtual environment:
 ```bash
@@ -270,12 +278,30 @@ source .venv/Scripts/activate
 pip install pylint graphviz
 ```
 
-3. Generate UML diagrams:
+3. #### Install the Graphviz system tool (Windows)
+1. Download the **Graphviz installer** from the official website:  
+   👉 [https://graphviz.org/download/](https://graphviz.org/download/)
+
+2. Run the installer and make sure to **check** the box:  
+   > “Add Graphviz to the system PATH for current user”
+
+3. After installation, **close and reopen your terminal** so the PATH updates.
+
+4. Verify that Graphviz was installed correctly:
+   ```bash
+   dot -V
+   ```
+   You should see something like this:
+   ```
+   dot - graphviz version 14.0.2 (2024-…)
+   ```
+
+4. Generate UML diagrams:
 ```bash
 pyreverse -o png -p PigDiceGame src/
 ```
 
-4. Move the diagrams to the documentation folder:
+5. Move the diagrams to the documentation folder:
 ```bash
 mv classes_PigDiceGame.png packages_PigDiceGame.png doc/uml/
 ```
