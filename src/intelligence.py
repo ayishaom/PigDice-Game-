@@ -48,7 +48,7 @@ class Intelligence:
         valid_levels = {"easy", "medium", "hard"}
         if level not in valid_levels:
             raise ValueError(
-                "Invalid difficulty level. Choose 'easy', " "'medium', or 'hard'."
+                "Invalid difficulty level." "Choose 'easy', " "'medium', or 'hard'."
             )
         self.difficulty = level
         if level == "easy":
